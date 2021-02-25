@@ -2,15 +2,10 @@ package com.template.recursivefunctionjavasample;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +15,13 @@ public final class ViewUtil {
         throw new AssertionError();
     }
 
-    private static List<View> getViewsRecursive(@Nullable final View view, @Nullable final ViewGroup parentView) {
+    private static List<View> getViewsTree(@Nullable final View view, @Nullable final ViewGroup parentView) {
         List<View> views = new ArrayList<>();
-        if ((view instanceof LinearLayout)
-                || (view instanceof FrameLayout)
-                || (view instanceof RelativeLayout
-                || (view instanceof ConstraintLayout))) {
+        if ((view instanceof ViewGroup)) {
             int childNum = ((ViewGroup) view).getChildCount();
             for (int count = childNum; 0 <= count; count--) {
                 View child = ((ViewGroup) view).getChildAt(count - 1);
-                views.addAll(getViewsRecursive(child, (ViewGroup) view));
+                views.addAll(getViewsTree(child, (ViewGroup) view));
             }
         }
         if (view != null) {
@@ -39,7 +31,7 @@ public final class ViewUtil {
     }
 
     public static void setOnClickListenerForToggleButton(@NonNull final View vg, @Nullable final View.OnClickListener l) {
-        final List<View> viewTree = getViewsRecursive(vg, null);
+        final List<View> viewTree = getViewsTree(vg, null);
         viewTree.stream().filter(view -> view instanceof ToggleButton).forEach(view -> view.setOnClickListener(l));
     }
 }
