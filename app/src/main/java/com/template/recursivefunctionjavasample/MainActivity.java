@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ViewUtil.setOnClickListenerForToggleButton(findViewById(R.id.content), v -> {
             final TextView view = (TextView) v;
-            Toast.makeText(MainActivity.this, view.getText().toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, view.getText(), Toast.LENGTH_SHORT).show();
         });
     }
 }
