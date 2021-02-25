@@ -15,13 +15,13 @@ public final class ViewUtil {
         throw new AssertionError();
     }
 
-    private static List<View> getViewsTree(@Nullable final View view) {
+    private static List<View> getViewTree(@Nullable final View view) {
         List<View> views = new ArrayList<>();
         if ((view instanceof ViewGroup)) {
             int childNum = ((ViewGroup) view).getChildCount();
             for (int count = childNum; 0 <= count; count--) {
                 View child = ((ViewGroup) view).getChildAt(count - 1);
-                views.addAll(getViewsTree(child));
+                views.addAll(getViewTree(child));
             }
         }
         if (view != null) {
@@ -31,7 +31,7 @@ public final class ViewUtil {
     }
 
     public static void setOnClickListenerForToggleButton(@NonNull final View vg, @Nullable final View.OnClickListener l) {
-        final List<View> viewTree = getViewsTree(vg);
+        final List<View> viewTree = getViewTree(vg);
         viewTree.stream().filter(view -> view instanceof ToggleButton).forEach(view -> view.setOnClickListener(l));
     }
 }
